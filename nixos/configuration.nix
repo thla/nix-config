@@ -158,6 +158,19 @@
     };
   };
 
+  # Enable common container config files in /etc/containers
+  virtualisation.containers.enable = true;
+  virtualisation = {
+    podman = {
+      enable = true;
+
+      # Create a `docker` alias for podman, to use it as a drop-in replacement
+      dockerCompat = true;
+
+      # Required for containers under podman-compose to be able to talk to each other.
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -176,6 +189,18 @@
     google-chrome
     vscode
     meld
+    fishPlugins.done
+    fishPlugins.fzf-fish
+    fishPlugins.forgit
+    fishPlugins.hydro
+    fishPlugins.grc
+    grc
+    dive # look into docker image layers
+    podman-tui # status of containers in the terminal
+    #docker-compose # start group of containers for dev
+    podman-compose # start group of containers for dev
+    podman-desktop
+    qemu
     inputs.home-manager.packages.${pkgs.system}.default
  ];
   # Set the default editor to vim
