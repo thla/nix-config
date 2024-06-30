@@ -132,6 +132,8 @@
     libtool # freetype calls glibtoolize
 
     godot_4
+    kitty
+    gh
   ];
 
   # Enable home-manager and git

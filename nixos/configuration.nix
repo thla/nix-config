@@ -102,6 +102,7 @@
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
+  services.flatpak.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
@@ -199,7 +200,7 @@
     podman-tui # status of containers in the terminal
     #docker-compose # start group of containers for dev
     podman-compose # start group of containers for dev
-    podman-desktop
+    flatpak
     qemu
     inputs.home-manager.packages.${pkgs.system}.default
  ];
