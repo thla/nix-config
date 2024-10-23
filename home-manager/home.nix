@@ -45,16 +45,44 @@
     };
   };
 
-  # Set your username
+  # TODO: Set your username
   home = {
     username = "thomas";
     homeDirectory = "/home/thomas";
   };
 
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+    # ...
+    "org/gnome/shell" = {
+      disable-user-extensions = false;
+
+      # `gnome-extensions list` for a list
+      enabled-extensions = [
+        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "trayIconsReloaded@selfmade.pl"
+        "Vitals@CoreCoding.com"
+        "dash-to-panel@jderose9.github.com"
+        "sound-output-device-chooser@kgshank.net"
+        "space-bar@luchrioh"
+      ];
+    };
+  };
+
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  home.packages = with pkgs; 
-  [ 
+  home.packages = with pkgs; [ 
+    # ...
+    gnomeExtensions.user-themes
+    gnomeExtensions.tray-icons-reloaded
+    gnomeExtensions.vitals
+    gnomeExtensions.dash-to-panel
+    gnomeExtensions.sound-output-device-chooser
+    gnomeExtensions.space-bar
+
+    #neovim 
     neofetch
     nnn # terminal file manager
 
@@ -70,6 +98,7 @@
     yq-go # yaml processor https://github.com/mikefarah/yq
     eza # A modern replacement for ‘ls’
     fzf # A command-line fuzzy finder
+    meld
 
     # networking tools
     mtr # A network diagnostic tool
@@ -138,6 +167,7 @@
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
+  #programs.git.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
@@ -224,5 +254,5 @@
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  home.stateVersion = "23.05";
+  home.stateVersion = "24.05";
 }
