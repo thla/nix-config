@@ -22,6 +22,10 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   nix.settings.experimental-features = "nix-command flakes";
+  nix.extraOptions = ''
+    trusted-users = root thomas
+  '';
+
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -139,6 +143,7 @@
     flatpak
     qemu
     gnome.gnome-tweaks
+    distrobox
  ];
   # Set the default editor to vim
   environment.variables.EDITOR = "vim";
@@ -150,6 +155,8 @@
     gnome.geary # email reader. Up to 24.05. Starting from 24.11 the package name is just geary.
   ];
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -157,6 +164,15 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
+
+  fonts.packages = with pkgs; [
+    dejavu_fonts
+    emacs-all-the-icons-fonts
+    jetbrains-mono
+    font-awesome
+    noto-fonts
+    noto-fonts-emoji
+  ];
 
   # List services that you want to enable:
 

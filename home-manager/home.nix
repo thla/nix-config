@@ -74,6 +74,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [ 
+    devenv
     # ...
     gnomeExtensions.user-themes
     gnomeExtensions.tray-icons-reloaded
@@ -247,6 +248,14 @@
         };
       }
     ];
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs29-pgtk;  # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    extraConfig = ''
+      (setq standard-indent 2)
+    '';
   };
 
   programs.neovim = {
