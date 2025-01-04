@@ -49,11 +49,12 @@
   };
 
   # Enable the X11 windowing system.
+  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # Enable the KDE Plasma Desktop Environment.
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -92,6 +93,7 @@
     description = "Thomas Lamparter";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
+      kdePackages.kate
     #  thunderbird
     ];
   };
@@ -142,18 +144,11 @@
     kubectl
     flatpak
     qemu
-    gnome.gnome-tweaks
     distrobox
  ];
   # Set the default editor to vim
   environment.variables.EDITOR = "vim";
 
-  environment.gnome.excludePackages = with pkgs; [
-    gnome-tour
-    gnome-connections
-    epiphany # web browser
-    gnome.geary # email reader. Up to 24.05. Starting from 24.11 the package name is just geary.
-  ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -191,6 +186,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
 }
