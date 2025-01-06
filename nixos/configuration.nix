@@ -94,6 +94,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kdePackages.kate
+      kdePackages.kcalc
     #  thunderbird
     ];
   };
@@ -117,6 +118,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  programs.nix-ld.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -145,6 +147,10 @@
     flatpak
     qemu
     distrobox
+    # office
+    libreoffice-qt
+    hunspell
+    hunspellDicts.de_DE
  ];
   # Set the default editor to vim
   environment.variables.EDITOR = "vim";

@@ -225,6 +225,14 @@
     userEmail = "thomas.lamparter@web.de";
   };
 
+  programs = {
+    direnv = {
+      enable = true;
+      enableBashIntegration = true; # see note on other shells below
+      nix-direnv.enable = true;
+    };
+  };
+
   # starship - an customizable prompt for any shell
   programs.starship = {
     enable = true;
