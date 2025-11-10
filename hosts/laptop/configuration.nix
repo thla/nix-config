@@ -13,6 +13,8 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -21,12 +23,6 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  nix.settings.experimental-features = "nix-command flakes";
-  nix.extraOptions = ''
-    trusted-users = root thomas
-  '';
-
-
   # Enable networking
   networking.networkmanager.enable = true;
 
@@ -34,7 +30,7 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "de_DE.UTF-8";
@@ -49,27 +45,27 @@
   };
 
   # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # Enable the GNOME Desktop Environment.
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "";
-  };
-
-  # Configure console keymap
+  # Set German keyboard layout for console (TTY)
   console.keyMap = "de";
+
+  # Set German layout for X11 (graphical session)
+  services.xserver = {
+    layout = "de";
+    xkbOptions = "eurosign:e"; # Optional: maps AltGr+E to €
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -93,70 +89,31 @@
     description = "Thomas Lamparter";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      kdePackages.kate
-      kdePackages.kcalc
     #  thunderbird
     ];
   };
 
-  # Enable common container config files in /etc/containers
-  virtualisation.containers.enable = true;
-  virtualisation = {
-    podman = {
-      enable = true;
-
-      # Create a `docker` alias for podman, to use it as a drop-in replacement
-      dockerCompat = true;
-
-      # Required for containers under podman-compose to be able to talk to each other.
-      defaultNetwork.settings.dns_enabled = true;
-    };
-  };
-
   # Install firefox.
-  programs.firefox.enable = true;
+  xdg.mime.defaultApplications = {
+    "text/html" = "firefox.desktop";
+    "x-scheme-handler/http" = "firefox.desktop";
+    "x-scheme-handler/https" = "firefox.desktop";
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  programs.nix-ld.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    ntfs3g
-    wget
-    curl
-    git
-    home-manager
-    google-chrome
-    vscode
-    meld
-    fishPlugins.done
-    fishPlugins.fzf-fish
-    fishPlugins.forgit
-    fishPlugins.hydro
-    fishPlugins.grc
-    grc
-    dive # look into docker image layers
-    podman-tui # status of containers in the terminal
-    #docker-compose # start group of containers for dev
-    podman-compose # start group of containers for dev
-    podman-desktop
-    kubectl
-    flatpak
-    qemu
-    distrobox
-    # office
-    libreoffice-qt
-    hunspell
-    hunspellDicts.de_DE
- ];
-  # Set the default editor to vim
-  environment.variables.EDITOR = "vim";
-
-
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  #  wget
+     home-manager
+     git
+     fish
+     firefox
+     google-chrome
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -165,15 +122,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  fonts.packages = with pkgs; [
-    dejavu_fonts
-    emacs-all-the-icons-fonts
-    jetbrains-mono
-    font-awesome
-    noto-fonts
-    noto-fonts-emoji
-  ];
 
   # List services that you want to enable:
 
