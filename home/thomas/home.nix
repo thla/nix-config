@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   home.username = "thomas";
@@ -15,8 +20,8 @@
       starship init fish | source
     '';
     shellInit = ''
-        # Custom Fish config
-    	set -g fish_greeting "Welcome to Fish 🐟"
+          # Custom Fish config
+      	set -g fish_greeting "Welcome to Fish 🐟"
     '';
     # Example plugins
     plugins = [
@@ -52,7 +57,12 @@
   # User packages
   home.packages = with pkgs; [
     starship
-    neovim
+    nerd-fonts.fira-code
+    nerd-fonts.jetbrains-mono
+    tree-sitter
+    lazygit
+    wget
+    nixfmt
     bat
     gnome-tweaks
     gnomeExtensions.blur-my-shell
@@ -60,13 +70,13 @@
     gnomeExtensions.dash-to-dock
     gnomeExtensions.appindicator
     gnomeExtensions.caffeine
-    
+
     # archives
     zip
     xz
     unzip
     p7zip
-    
+
     # utils
     ripgrep # recursively searches directories for a regex pattern
     jq # A lightweight and flexible command-line JSON processor
@@ -78,7 +88,7 @@
     #hugo # static site generator
     glow # markdown previewer in terminal
 
-    btop  # replacement of htop/nmon
+    btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -109,6 +119,7 @@
 
     godot_4
     kitty
+    kitty-themes
     gh
     vlc
     wezterm
@@ -118,17 +129,17 @@
     lua
     luarocks
   ];
-  
+
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs;  # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
+    package = pkgs.emacs; # replace with pkgs.emacs-gtk, or a version provided by the community overlay if desired.
     extraConfig = ''
       (setq standard-indent 2)
     '';
   };
-  
-   nixpkgs.config.allowUnfree = true;
-  
+
+  nixpkgs.config.allowUnfree = true;
+
   programs.vscode = {
     enable = true;
     extensions = with pkgs.vscode-extensions; [
@@ -137,11 +148,94 @@
     ];
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "JetBrainsMono Nerd Font";
+        };
+        size = 12.0;
+      };
+    };
+  };
+
+  # Kitty terminalllll
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 11;
+    };
+    shellIntegration.enableFishIntegration = true;
+    theme = "Catppuccin-Macchiato";
+    #Also available: Catppuccin-Frappe Catppuccin-Latte Catppuccin-Macchiato Catppuccin-Mocha
+    # See all available kitty themes at: https://github.com/kovidgoyal/kitty-themes/blob/46d9dfe230f315a6a0c62f4687f6b3da20fd05e4/themes.json
+  };
+
+  programs.neovim = {
+    enable = true;
+
+    plugins = with pkgs.vimPlugins; [
+      lazy-nvim
+    ];
+
+    extraPackages = with pkgs; [
+      lua-language-server
+      stylua
+      ripgrep
+      fd
+    ];
+
+    extraLuaConfig = ''
+      -- Lazy.nvim setup
+      require("lazy").setup({
+        spec = {
+          { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+
+          -- Rust development plugins
+          { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+          { "ibhagwan/fzf-lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
+          { "folke/tokyonight.nvim" }, -- theme
+          { "neovim/nvim-lspconfig" }, -- core LSP support
+          { "simrat39/rust-tools.nvim" }, -- extra rust-analyzer goodies
+          { "saecki/crates.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- manage Cargo.toml crates
+          { "mfussenegger/nvim-dap" }, -- debugging framework
+          { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } }, -- debugger UI
+          { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- syntax highlighting
+
+          -- Completion
+          { "hrsh7th/nvim-cmp", dependencies = {
+              "hrsh7th/cmp-nvim-lsp",
+              "hrsh7th/cmp-buffer",
+              "hrsh7th/cmp-path",
+          }},
+
+          -- Statusline
+          { "nvim-lualine/lualine.nvim" },
+
+          -- Git integration
+          { "lewis6991/gitsigns.nvim" },
+        },
+        defaults = { lazy = true },
+        readme = { enabled = false },
+      })
+
+      -- Example: set colorscheme
+      vim.cmd("colorscheme tokyonight")
+    '';
+  };
+
   # gnome
   dconf.settings = with lib.hm.gvariant; {
 
     "org/gnome/desktop/input-sources" = {
-      sources = [ (mkTuple [ "xkb" "de+nodeadkeys" ]) ];
+      sources = [
+        (mkTuple [
+          "xkb"
+          "de+nodeadkeys"
+        ])
+      ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
@@ -151,8 +245,8 @@
     "org/gnome/shell" = {
       disable-user-extensions = false;
 
-     enabled-extensions = [
-        "appindicatorsupport@rgcjonas.gmail.com" 
+      enabled-extensions = [
+        "appindicatorsupport@rgcjonas.gmail.com"
         "caffeine@patapon.info"
         "dash-to-dock@micxgx.gmail.com"
         "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
