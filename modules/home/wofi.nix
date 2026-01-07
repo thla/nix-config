@@ -12,8 +12,12 @@
     };
 
     style = ''
+
+      /* Or adjust general font */
+      * {
+        font-size: 14pt; /* Adjust for global change */
+      }
       window {
-        background-color: #1e1e2e;
         border-radius: 8px;
       }
     '';

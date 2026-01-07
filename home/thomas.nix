@@ -17,7 +17,7 @@
      ../modules/home/wofi.nix
      ../modules/home/mako.nix
      ../modules/home/waybar.nix
-     #../modules/home/swww.nix
-     #../modules/home/theme-catppuccin.nix
+     ../modules/home/swww.nix
+     ../modules/home/theme-catppuccin.nix
   ];
 }

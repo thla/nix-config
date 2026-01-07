@@ -1,27 +1,21 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
+let
+  wallpaper = "/home/thomas/Pictures/wallpapers/wallhaven-481mj0.jpg";
+in
 {
   home.packages = [ pkgs.swww ];
 
   systemd.user.services.swww-daemon = {
-    Unit = {
-      Description = "Swww wallpaper daemon";
-      After = [ "graphical-session.target" ];
-    };
+    Unit.Description = "swww wallpaper daemon";
     Service = {
       ExecStart = "${pkgs.swww}/bin/swww-daemon";
-      Restart = "always";
+      Restart = "on-failure";
     };
-    Install = {
-      WantedBy = [ "default.target" ];
-    };
+    Install.WantedBy = [ "default.target" ];
   };
 
-  home.sessionVariables = {
-    WALLPAPER = "/home/thomas/Pictures/wallpapers/catppuccin-mocha.png";
-  };
-
-  home.activation.setWallpaper = ''
-    ${pkgs.swww}/bin/swww img "$WALLPAPER" --transition-type grow --transition-step 90
+  home.activation.setWallpaper = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    ${pkgs.swww}/bin/swww img ${wallpaper}
   '';
 }

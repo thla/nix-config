@@ -119,7 +119,7 @@
           family = "JetBrainsMono Nerd Font";
           style = "Regular";
         };
-        size = 12.0;
+        size = 11.0;
       };
 
       cursor = {
