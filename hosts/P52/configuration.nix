@@ -12,7 +12,6 @@
        ../../modules/system/networking.nix
        ../../modules/system/locale.nix
        ../../modules/system/displaymanager.nix
-       ../../modules/system/hyprland.nix
        ../../modules/system/pipewire.nix
        ../../modules/system/users.nix
        ../../modules/system/packages.nix
@@ -26,6 +25,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "26.01"; # Did you read the comment?
 
 }

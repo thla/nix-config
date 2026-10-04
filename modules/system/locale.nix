@@ -1,6 +1,7 @@
 {
 
 
+
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -18,15 +19,6 @@
     LC_TELEPHONE = "de_DE.UTF-8";
     LC_TIME = "de_DE.UTF-8";
   };
-
-    # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "de";
-    variant = "";
-  };
-
-  # Configure console keymap
-  console.keyMap = "de";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;

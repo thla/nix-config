@@ -19,10 +19,50 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git
-    curl
     wget
+    curl
+    git
     fish
+    google-chrome
+
+    gnome-tweaks
+    #gnome-extensions-tracker
+    # Beispiel für eine beliebte Erweiterung (Dash to Panel)
+
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.just-perfection
+    gnomeExtensions.arc-menu
+    gnomeExtensions.daily-bing-wallpaper
+
+    htop
+    fzf
+    ripgrep # Required for live_grep
+    fd      # Required for faster find_files
+    mc
+    yazi
+    zellij
+    ffmpeg
+    zoxide
+    resvg
+    imagemagick
+    wl-clipboard
+    starship
+    zip
+    unzip
+    _7zz
+    ripgrep
+    tree-sitter
+    nil  # Nix Language Server
+
+    # Compiler & Cargo
+    rustc
+    cargo
+    rustfmt
+    clippy
+    lldb
+    gcc
+    gnumake
+    nodejs
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
