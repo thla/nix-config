@@ -5,6 +5,16 @@
   # Install firefox.
   programs.firefox.enable = true;
 
+
+
+
+programs.dms-shell = {
+  enable = true;
+
+  systemd.enable = false;             # Systemd service for auto-start
+  
+};
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -24,6 +34,7 @@
     git
     fish
     google-chrome
+    fuzzel
 
     gnome-tweaks
     #gnome-extensions-tracker

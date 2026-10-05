@@ -19,6 +19,10 @@
     enableZshIntegration = true;
   };
 
+  programs.fuzzel = {
+    enable = true;
+  };
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''

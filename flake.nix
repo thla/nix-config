@@ -7,9 +7,15 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs"; # Erzwingt, dass HM deine unstable nixpkgs nutzt
     };
+    # Niri Flake hinzufügen
+    niri = {
+      url = "github:epireyn/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, niri, ... }@inputs:
     let
       system = "x86_64-linux";
       lib = nixpkgs.lib;
@@ -24,9 +30,13 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-
             home-manager.users.thomas = import ./home/thomas.nix;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.sharedModules = [
+              niri.homeModules.niri
+            ];
           }
+
         ];
       };
     };

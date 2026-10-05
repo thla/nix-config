@@ -11,5 +11,6 @@
     ../modules/home/programs.nix
     ../modules/home/ghostty.nix
     ../modules/home/neovim.nix
+    ../modules/home/niri.nix
   ];
 }
